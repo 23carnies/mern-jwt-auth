@@ -21,8 +21,10 @@ app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
 
 
-app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+//must leave the auth router exposed outsdie the require so that people can still log in but we are protecting the userRouter below
+//app.use(require("./config/auth"));    or we could put this in user routes above any specific routes we want to protect
+app.use('/api/users', userRouter);
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
